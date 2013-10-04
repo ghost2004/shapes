@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+function person(firstname,lastname,age,eyecolor)
+{
+this.firstname=firstname;
+this.lastname=lastname;
+this.age=age;
+this.eyecolor=eyecolor;
+ 
+this.changeName=changeName;
+this.ch2=ch2;
+function ch2()
+{
+	var numargs = arguments.length;
+	if (numargs == 0)
+		return this.firstname;
+	else {
+		this.firstname = arguments[0];
+		return this;
+	}
+
+}
+
+function changeName(name)
+{
+this.lastname=name;
+return this;
+}
+}
+
+function Line() {
+	
+	this.leftX = 0;
+	this.leftY = 0;
+	this.rightX = 0;
+	this.rightY = 0;
+	this.color = "red";
+	this.width = 1;
+
+		
+	this.x1 = x1;
+	this.y1 = y1;
+		
+	function x1() {
+		var numargs = arguments.length;
+		if (numargs == 0)
+			return this.leftX;
+		else {
+			this.leftX = arguments[0];
+			alert(this.leftX);
+			return this;
+		}
+	}
+	function y1(y) {
+		this.leftY = y;
+		return this;
+	}
+}
+myMother=new person("Steve","Jobs",56,"green");
+myMother.ch2("kobe").changeName("Ballmer");
+
+document.write(myMother.lastname+" "+myMother.ch2());
+
+var l = new Line().x1(200).y1(100);
+document.write(l.x1());
+</script>
+
+</body>
+</html>
