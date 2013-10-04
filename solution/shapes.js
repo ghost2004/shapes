@@ -1,4 +1,4 @@
-
+var NS="http://www.w3.org/2000/svg";
 
 function Line() {
 	
@@ -66,57 +66,22 @@ function Line() {
 	function strokeWidth() {
 		var numargs = arguments.length;
 		if (numargs == 0)
-			return this.rightX;
+			return this.width;
 		else {
-			this.rightX = arguments[0];
+			this.width = arguments[0];
 			return this;
 		}
 	}
 	function draw(svg) {
-		//svg.moveTo(this.leftX, this.leftY);
-		/*
-		var node = document.createElement("line");
-		node.setAttribute("x1", 100);
-		node.setAttribute("x2", 200);
-		node.setAttribute("y1", 100);
-		node.setAttribute("y2", 200);
-		node.setAttribute("stroke", "purple");
-		node.setAttribute("stroke-width", 10);
-		*/
-
-		svg.innerHTML = "<line stroke=\"purple\" stroke-width=\"10\" x1=\"200\" x2=\"300\" y1=\"50\" y2=\"100\"></line>";
-		alert(svg.innerHTML);
-		//svg.appendChild(node);
+			var shape = document.createElementNS(NS, "line");
+    	shape.setAttributeNS(null, "x1", this.leftX);
+    	shape.setAttributeNS(null, "y1", this.leftY);
+    	shape.setAttributeNS(null, "x2", this.rightX);
+    	shape.setAttributeNS(null, "y2", this.rightY);
+    	shape.setAttributeNS(null, "stroke", this.color);
+    	shape.setAttributeNS(null, "stroke-width", this.width);
+		svg.appendChild(shape);
 		return this;
 	}
-	/* Create a shape node with the given settings. */
-	/*
-	_makeNode: function(parent, name, settings) {
-		parent = parent || this._svg;
-		var node = this._svg.ownerDocument.createElementNS($.svg.svgNS, name);
-		for (var name in settings) {
-			var value = settings[name];
-			if (value != null && value != null && 
-					(typeof value != 'string' || value != '')) {
-				node.setAttribute($.svg._attrNames[name] || name, value);
-			}
-		}
-		parent.appendChild(node);
-		return node;
-	},*/
-	/* Draw a line.
-	   @param  parent    (element or jQuery) the parent node for the new shape (optional)
-	   @param  x1        (number) the x-coordinate for the start of the line
-	   @param  y1        (number) the y-coordinate for the start of the line
-	   @param  x2        (number) the x-coordinate for the end of the line
-	   @param  y2        (number) the y-coordinate for the end of the line
-	   @param  settings  (object) additional settings for the shape (optional)
-	   @return  (element) the new shape node */
-	/*line: function(parent, x1, y1, x2, y2, settings) {
-		var args = this._args(arguments, ['x1', 'y1', 'x2', 'y2']);
-		return this._makeNode(args.parent, 'line', $.extend(
-			{x1: args.x1, y1: args.y1, x2: args.x2, y2: args.y2}, args.settings || {}));
-	},*/
-
-			
+	
 }
