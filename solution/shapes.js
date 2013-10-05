@@ -133,3 +133,47 @@ function Rectangle() {
 		return this;
 	};
 }
+// Object Text
+function Text() {
+	this._text = "";
+	this._x = 0;
+	this._y = 0;
+	
+	this.x = function() {
+		var numargs = arguments.length;
+		if (numargs == 0)
+			return this._x;
+		else {
+			this._x = arguments[0];
+			return this;
+		}
+	};
+	this.y = function() {
+		var numargs = arguments.length;
+		if (numargs == 0)
+			return this._y;
+		else {
+			this._y = arguments[0];
+			return this;
+		}
+	};
+	this.text = function() {
+		var numargs = arguments.length;
+		if (numargs == 0)
+			return this._text;
+		else {
+			this._text = arguments[0];
+			return this;
+		}
+	};
+	this.draw = function(svg) {
+		var data = document.createTextNode(this._text);
+		var txt = document.createElementNS(NS, "text");
+		txt.setAttributeNS(null, "x", this._x);
+		txt.setAttributeNS(null, "y", this._y);
+		txt.setAttributeNS(null, "text-anchor", "start");
+		txt.appendChild(data);
+		svg.appendChild(txt);
+		return this;		
+	}
+}

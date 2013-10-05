@@ -17,6 +17,12 @@
          .center(200, 200).width(20).height(50)
          .fill('blue')
          .draw(svg);
+         
+         new Text()
+         .x(400).y(50)
+         .text("Line " + l.x1() + "," + l.y1() + " > " + l.x2() + "," + l.y2() + " " + l.stroke())
+         .draw(svg);
+      
     </script>
    </body>
 </html>
