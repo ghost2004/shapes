@@ -47,7 +47,10 @@ function Shape() {
             this.leftY = arguments[0];
             return this;
         }
-    }  
+    } 
+    this.draw = function () {
+    	alert(this.x1()+"-- "+this.y1());
+    }
         
 
 }
@@ -60,12 +63,27 @@ function Line() {
 	}
 
 }
+function Circle() {
+	this.centerX = this.x1;
+    this.draw = function() {
+        document.write("<p> center: "+ this.centerX() +"-" + this.y1()+ "</p>");
+    }
+    
+    
+
+}
 extend(Line,Shape,"");
+extend(Circle,Shape,"");
 
 var l = new Line().x1(200).y1(100);
 var l2 = new Line().x1(400).y1(500);
+var c = new Circle().x1(111).y1(770);
 l.draw();
 l2.draw();
+c.draw();
+
+var s = new Shape().x1(1).y1(1);
+s.draw();
 
 </script>
 
