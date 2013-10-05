@@ -1,29 +1,12 @@
     <html>
        <body>
-
-          <script>
-  var ns = "http://www.w3.org/2000/svg";
-  var svg = document.createElementNS(ns, 'svg');
-  document.body.appendChild(svg);
-  
-  var g1 = document.createElementNS(ns, 'g');
-  svg.appendChild(g1);
-  
-  var g2 = document.createElementNS(ns, 'g');
-  svg.appendChild(g2);
-  
-  var rect_arr = [];
-  var len = 20;
-  
-  for (var i = 0; i < len; i++) {
-   var rect = document.createElementNS(ns, 'rect');
-   rect.setAttribute('x', i);
-   rect.setAttribute('y', i);
-   rect.setAttribute('width', i * 2);
-   rect.setAttribute('height', i * 3);
-   g1.appendChild(rect);
-   rect_arr.push(rect);
-  }
-</script>
+          <svg id="container" width="800" height="600">
+             <line stroke="purple" stroke-width="10" x1="200" x2="300" y1="50" y2="100"></line>
+             <rect fill="yellow" x="50" y="50" width="100" height="100"></rect>
+             <circle fill="red" cx="100" cy="100" r="50"></circle>
+             <rect fill="blue" x="190" y="175" width="20" height="50"></rect>
+             <text x="400" y="50">Line 200,50 &gt; 300,100 purple</text>
+             <text x="400" y="70">Square 100,100 width 100 yellow</text>
+          </svg>
        </body>
     </html>
