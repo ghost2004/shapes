@@ -1,16 +1,15 @@
 var NS="http://www.w3.org/2000/svg";
 
+// Object Line
 function Line() {
-	
 	this.leftX = 0;
 	this.leftY = 0;
 	this.rightX = 0;
 	this.rightY = 0;
 	this.color = "red";
 	this.width = 1;
-
 		
-	this.x1 = function x1() {
+	this.x1 = function() {
 		var numargs = arguments.length;
 		if (numargs == 0)
 			return this.leftX;
@@ -19,15 +18,8 @@ function Line() {
 			return this;
 		}
 	};
-	this.y1 = y1;
-	this.x2 = x2;
-	this.y2 = y2;
-	this.stroke = stroke;
-	this.strokeWidth = strokeWidth;
-	this.draw = draw;
-		
 	
-	function y1() {
+	this.y1 = function() {
 		var numargs = arguments.length;
 		if (numargs == 0)
 			return this.leftY;
@@ -35,8 +27,9 @@ function Line() {
 			this.leftY = arguments[0];
 			return this;
 		}
-	}
-	function x2() {
+	};
+	
+	this.x2 = function() {
 		var numargs = arguments.length;
 		if (numargs == 0)
 			return this.rightX;
@@ -44,8 +37,9 @@ function Line() {
 			this.rightX = arguments[0];
 			return this;
 		}
-	}
-	function y2() {
+	};
+	
+	this.y2 = function() {
 		var numargs = arguments.length;
 		if (numargs == 0)
 			return this.rightY;
@@ -53,8 +47,9 @@ function Line() {
 			this.rightY = arguments[0];
 			return this;
 		}
-	}
-	function stroke() {
+	};
+	
+	this.stroke = function() {
 		var numargs = arguments.length;
 		if (numargs == 0)
 			return this.color;
@@ -62,8 +57,9 @@ function Line() {
 			this.color = arguments[0];
 			return this;
 		}
-	}
-	function strokeWidth() {
+	};
+	
+	this.strokeWidth = function() {
 		var numargs = arguments.length;
 		if (numargs == 0)
 			return this.width;
@@ -71,9 +67,10 @@ function Line() {
 			this.width = arguments[0];
 			return this;
 		}
-	}
-	function draw(svg) {
-			var shape = document.createElementNS(NS, "line");
+	};
+	
+	this.draw = function(svg) {
+		var shape = document.createElementNS(NS, "line");
     	shape.setAttributeNS(null, "x1", this.leftX);
     	shape.setAttributeNS(null, "y1", this.leftY);
     	shape.setAttributeNS(null, "x2", this.rightX);
@@ -82,6 +79,23 @@ function Line() {
     	shape.setAttributeNS(null, "stroke-width", this.width);
 		svg.appendChild(shape);
 		return this;
-	}
+	};
+}
+// 
+function Rectangle() {
+	this.color = red;
+	this.cX = 0;
+	this.cY = 0;
+	this.height = 0;
+	this._width = 0;
+	
+	this.center = function(c1, c2) {
+		this.cX = c1;
+		this.cY = c2;
+		return this;
+	};
+	this.width = function() {
+		
+	};
 	
 }
