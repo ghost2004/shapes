@@ -49,7 +49,7 @@ function Shape() {
         }
     } 
     this.draw = function () {
-    	alert(this.x1()+"-- "+this.y1());
+    	//alert(this.x1()+"-- "+this.y1());
     }
         
 
@@ -73,7 +73,8 @@ function Circle() {
 
 }
 extend(Line,Shape,"");
-extend(Circle,Shape,"");
+//extend(Circle,Shape,"");
+Circle.prototype = new Shape("");
 
 var l = new Line().x1(200).y1(100);
 var l2 = new Line().x1(400).y1(500);
@@ -84,6 +85,11 @@ c.draw();
 
 var s = new Shape().x1(1).y1(1);
 s.draw();
+
+var d = new Date("1990-05-01T07:00:00.000Z");
+
+document.write("Year: "+ d.getFullYear());
+
 
 </script>
 
