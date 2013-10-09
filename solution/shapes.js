@@ -104,10 +104,15 @@ extendClass(Square, Shapes,"");
 function Line() {
 	this._x2 = 0;
 	this._y2 = 0;
+	this._broken = false;
 	this.x1 = this.x;
 	this.y1 = this.y;
 	this.stroke = this.fill;
 	this.strokeWidth = this.width;
+	this.broken = function(flag) {
+		this._broken = flag;
+		return this;
+	};
 	
 	this.x2 = function() {
 		var numargs = arguments.length;
@@ -136,6 +141,8 @@ function Line() {
     	shape.setAttributeNS(null, "y2", this._y2);
     	shape.setAttributeNS(null, "stroke", this._color);
     	shape.setAttributeNS(null, "stroke-width", this._width);
+    	if (this._broken)
+ 			shape.setAttributeNS(null, "style", "stroke-dasharray:3 2");   
 		svg.appendChild(shape);
 		return this;
 	};
