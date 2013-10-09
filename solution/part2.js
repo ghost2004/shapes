@@ -44,21 +44,34 @@ function SVGPlot(svg, data) {
 	this._right_blank = 40;
 	this._bottom_blank = 60;
 	this._top_blank = 40;
+	this._x_per_blk = 12;
 	
-	this._axis_x1 = this._left_blank;
-	this._axis_y1 = this._height - this._bottom_blank;
-	this._axis_x2 = this._width - this._right_blank;
-	this._axis_y2 = this._top_blank;
+
 	
-	var x_axis = new Line().x1(this._axis_x1).y1(this._axis_y1)
+	function initAxis() {
+		this._axis_x1 = this._left_blank;
+		this._axis_y1 = this._height - this._bottom_blank;
+		this._axis_x2 = this._width - this._right_blank;
+		this._axis_y2 = this._top_blank;
+		
+		this._x_pels = (this._axis_x2 - this._axis_x1) /this._chartData.length;
+		
+		var diff = this._chartData._maxVal - this._chartData._minVal;
+		
+		
+		var x_axis = new Line().x1(this._axis_x1).y1(this._axis_y1)
 				.x2(this._axis_x2).y2(this._axis_y1)
 				.stroke('purple').strokeWidth(2)
             	.draw(this._svg);
 	
-	var y_axis = new Line().x1(this._axis_x1).y1(this._axis_y1)
+		var y_axis = new Line().x1(this._axis_x1).y1(this._axis_y1)
 				.x2(this._axis_x1).y2(this._axis_y2)
 				.stroke('purple').strokeWidth(2)
             	.draw(this._svg);
+		
+	}
+	
+
 	
 	
 	
