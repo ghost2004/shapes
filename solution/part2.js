@@ -10,42 +10,38 @@ function dataItem(item) {
 	this._val = item.level;
 }
 
-function ChartData() {
+function ChartData(data) {
 	this._chartD = new Array();
 	this._minVal = 0;
 	this._maxVal = 0;
+	if (!isArray(data)){
+		return null;
+	}
+	this._minVal = data[0].level;
+	this._maxVal = data[0].level;
+	for (var i = 0; i < data.length; i++) {
+		var item = new dataItem(data[i]);
+		this._chartD.push(item);
+		if (item._val < this._minVal)
+			this._minVal = item._val;
+		else if (item._val > this._maxVal)
+			this._maxVal = item._val;
 			
-	this.loadFromArray = function(data){
-		if (!isArray(data)){
-			return null;
-		}
-		this._minVal = data[0].level;
-		this._maxVal = data[0].level;
-		for (var i = 0; i < data.length; i++) {
-			var item = new dataItem(data[i]);
-			this._chartD.push(item);
-			if (item._val < this._minVal)
-				this._minVal = item._val;
-			else if (item._val > this._maxVal)
-				this._maxVal = item._val;
-				
-		} 
-		
-	};
+	} 
 }
 
 function SVGPlot(svg, data) {
 	this._width = svg.getAttribute("width");
 	this._height = svg.getAttribute("height");
 	this._svg = svg;
-	this._chartData = data;
+	this._chartData =new ChartData(data);
 	
 	this._left_blank = 60;
 	this._right_blank = 40;
 	this._bottom_blank = 60;
 	this._top_blank = 40;
 	this._x_per_blk = 12;
-	
+	initAxis();
 
 	
 	function initAxis() {
@@ -54,9 +50,11 @@ function SVGPlot(svg, data) {
 		this._axis_x2 = this._width - this._right_blank;
 		this._axis_y2 = this._top_blank;
 		
-		this._x_pels = (this._axis_x2 - this._axis_x1) /this._chartData.length;
+		//this._x_pels = (this._axis_x2 - this._axis_x1) /this._chartData._chartD.length;
 		
 		var diff = this._chartData._maxVal - this._chartData._minVal;
+		
+		var i = diff;
 		
 		
 		var x_axis = new Line().x1(this._axis_x1).y1(this._axis_y1)
