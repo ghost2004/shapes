@@ -32,9 +32,12 @@ function ChartData(data) {
 }
 
 function SVGPlot(svg, data) {
-	this._width = svg.getAttribute("width");
-	this._height = svg.getAttribute("height");
+	
 	this._svg = svg;
+	
+	this._width = this._svg.getAttribute("width");
+	this._height = this._svg.getAttribute("height");
+	
 	this._chartData =new ChartData(data);
 
 	this._left_blank = 60;
@@ -56,6 +59,7 @@ function SVGPlot(svg, data) {
 		this._axis_y1 = this._height - this._bottom_blank;
 		this._axis_x2 = this._width - this._right_blank;
 		this._axis_y2 = this._top_blank;
+		this._x_tip_max = this._axis_x2 - 150;
 		this._x_max = this._axis_x2 - this._axis_x1;
 		this._x_pels = this._x_max/this._chartData._chartD.length;
 		
@@ -99,7 +103,7 @@ function SVGPlot(svg, data) {
         	var t = new Text()
             	.x(u + this._left_blank - 15).y(this._axis_y1+20)
             	.text(this._chartData._chartD[i]._date.getFullYear()+1)
-            	.draw(svg);
+            	.draw(this._svg);
         	i += this._x_per_blk;
         	u += this._x_pels * this._x_per_blk;
         }
@@ -120,7 +124,7 @@ function SVGPlot(svg, data) {
         	var v = new Text()
             	.x(this._axis_x1 - 30).y(uy+5)
             	.text(i)
-            	.draw(svg);
+            	.draw(this._svg);
        		i += this._y_per_blk;
        	}
 		
@@ -135,16 +139,74 @@ function SVGPlot(svg, data) {
 			newY = this.getMapY(this._chartData._chartD[i]._val);
 			var l = new Line().x1(prevX).y1(prevY)
         		.x2(newX).y2(newY)
-        		.stroke("red").strokeWidth(1)
+        		.stroke("green").strokeWidth(1)
         		.draw(this._svg);
         	prevX = newX;
         	prevY = newY;	
         	
 		}
+		
+	};
+	
+	this.getDataByX = function(x) {
+		var idx = (x - this._axis_x1)/this._x_pels;
+		if (idx < 0)
+			idx = 0;
+		else if (idx >= this._chartData._chartD.length)
+			idx = this._chartData._chartD.length - 1;
+		var date = this._chartData._chartD[idx]._date;
+		var str = "Date: "+ date.getFullYear() + "-" + (date.getMonth()+1);
+		str += " Level:" + this._chartData._chartD[idx]._val;
+		
+		return str;
+	}
+	
+	this.initTip = function() {
+		this._tip_line = document.createElementNS(NS, "line");
+		this._tip_line.setAttributeNS(null, "x1", this._axis_x1);
+		this._tip_line.setAttributeNS(null, "y1", this._axis_y1);
+		this._tip_line.setAttributeNS(null, "x2", this._axis_x1);
+		this._tip_line.setAttributeNS(null, "y2", this._axis_y2);
+		this._tip_line.setAttributeNS(null, "style", "fill:red;stroke:red;stroke-width:1;stroke-dasharray:3 2");
+		this._svg.appendChild(this._tip_line);
+		
+		this._tip_data = document.createTextNode(this.getDataByX(this._axis_x1));
+		this._tip_txt = document.createElementNS(NS, "text");
+		this._tip_txt.setAttributeNS(null, "x", this._axis_x1);
+		this._tip_txt.setAttributeNS(null, "y", this._axis_y2-10);
+		this._tip_txt.setAttributeNS(null, "text-anchor", "start");
+		this._tip_txt.appendChild(this._tip_data);
+		this._svg.appendChild(this._tip_txt);
+		
+	};
+	
+
+	
+	this.updateCursor = function(evt) {
+        // Get the mouse x and y coordinates
+        var x = evt.clientX;
+        var y = evt.clientY;
+        
+        if (x < this._axis_x1)
+        	x = this._axis_x1;
+        else if (x > this._axis_x2)
+        	x = this._axis_x2;
+
+        this._tip_line.setAttributeNS(null, "x1", x);
+        this._tip_line.setAttributeNS(null, "x2", x);
+        if (x < this._x_tip_max )
+        	this._tip_txt.setAttributeNS(null, "x", x);
+        else
+        	this._tip_txt.setAttributeNS(null, "x", this._x_tip_max);
+        this._tip_data.textContent  = this.getDataByX(x);
+
 	};
 	
 	this.initAxis();
 	this.drawData();
+	this.initTip();
+	
+	
 	
 	
 }
