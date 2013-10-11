@@ -8,6 +8,11 @@ function isArray(a) {
 function dataItem(item) {
 	this._date = new Date(item.date);
 	this._val = item.level;
+	this.str = function() {
+		var s = "Date: "+ this._date.getFullYear() + "-" + (this._date.getMonth()+1);
+		s += " Level:" + this._val;
+		return s;
+	}
 }
 
 function ChartData(data) {
@@ -149,16 +154,13 @@ function SVGPlot(svg, data) {
 	};
 	
 	this.getDataByX = function(x) {
-		var idx = (x - this._axis_x1)/this._x_pels;
+		var idx = Math.floor((x - this._axis_x1)/this._x_pels);
 		if (idx < 0)
 			idx = 0;
 		else if (idx >= this._chartData._chartD.length)
 			idx = this._chartData._chartD.length - 1;
-		var date = this._chartData._chartD[idx]._date;
-		var str = "Date: "+ date.getFullYear() + "-" + (date.getMonth()+1);
-		str += " Level:" + this._chartData._chartD[idx]._val;
 		
-		return str;
+		return this._chartData._chartD[idx].str();
 	}
 	
 	this.initTip = function() {
