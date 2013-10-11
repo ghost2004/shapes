@@ -1,0 +1,51 @@
+<html>
+<head></head>
+<body>
+
+<svg id = "container"> 
+<script type="text/javascript">
+svgDocument = document.getElementById('container');
+
+function changeText(evt)
+{
+   targetXtext=svgDocument.getElementById("XPos");
+   targetYtext=svgDocument.getElementById("YPos");
+   var XPos = evt.getClientX();
+   var YPos = evt.getClientY();
+   var newXPosText = svgDocument.createTextNode("X Position : " + XPos);
+   var newYPosText = svgDocument.createTextNode("Y Position : " + YPos);
+   targetXtext.replaceChild(newXPosText,targetXtext.getFirstChild());
+   targetYtext.replaceChild(newYPosText,targetYtext.getFirstChild());
+}
+function changeTextNotOver(evt)
+{
+   targetXtext=svgDocument.getElementById("XPos");
+   targetYtext=svgDocument.getElementById("YPos");
+   var newXPosText = 
+     svgDocument.createTextNode("X Position : Not over Rectangle");
+   var newYPosText = 
+     svgDocument.createTextNode("Y Position : Not over Rectangle");
+   targetXtext.replaceChild(newXPosText,targetXtext.getFirstChild());
+   targetYtext.replaceChild(newYPosText,targetYtext.getFirstChild());
+}
+function recordClick(evt)
+{
+   targetClickText=svgDocument.getElementById("ClickPos");
+   var XPos = evt.getClientX();
+   var YPos = evt.getClientY();
+   var newClickText = 
+     svgDocument.createTextNode("Last Click made at X=" + XPos + " Y=" + YPos);
+   targetClickText.replaceChild(newClickText, 
+         targetClickText.getFirstChild());
+}
+
+</script>
+<text id="XPos" x="50" y="50">X Position :</text>
+<text id="YPos" x="50" y="70">Y Position :</text>
+<text id="ClickPos" x="50" y="90">Last Click made at : </text>
+<rect x="50" y="100" width="200" height="200" style="fill:blue" 
+      onmousemove="changeText(evt)" onmouseout="changeTextNotOver(evt)" 
+      onclick="recordClick(evt)"></rect>  
+</svg>
+</body>
+</html>
