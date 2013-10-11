@@ -10,9 +10,9 @@ function dataItem(item) {
 	this._val = item.level;
 	this.str = function() {
 		var s = "Date: "+ this._date.getFullYear() + "-" + (this._date.getMonth()+1);
-		s += " Level:" + this._val;
+		s += " Level: " + this._val;
 		return s;
-	}
+	};
 }
 
 function ChartData(data) {
@@ -160,9 +160,9 @@ function SVGPlot(svg, data) {
 		else if (idx >= this._chartData._chartD.length)
 			idx = this._chartData._chartD.length - 1;
 		
-		return this._chartData._chartD[idx].str();
-	}
-	
+		return this._chartData._chartD[idx];
+	};
+	// Initialize the tip information
 	this.initTip = function() {
 		this._tip_line = document.createElementNS(NS, "line");
 		this._tip_line.setAttributeNS(null, "x1", this._axis_x1);
@@ -172,7 +172,8 @@ function SVGPlot(svg, data) {
 		this._tip_line.setAttributeNS(null, "style", "fill:red;stroke:red;stroke-width:1;stroke-dasharray:3 2");
 		this._svg.appendChild(this._tip_line);
 		
-		this._tip_data = document.createTextNode(this.getDataByX(this._axis_x1));
+		var obj = this._chartData._chartD[0];
+		this._tip_data = document.createTextNode(obj.str());
 		this._tip_txt = document.createElementNS(NS, "text");
 		this._tip_txt.setAttributeNS(null, "x", this._axis_x1);
 		this._tip_txt.setAttributeNS(null, "y", this._axis_y2-10);
@@ -180,10 +181,16 @@ function SVGPlot(svg, data) {
 		this._tip_txt.appendChild(this._tip_data);
 		this._svg.appendChild(this._tip_txt);
 		
+		this._tip_circle = document.createElementNS(NS, "circle");
+    	this._tip_circle.setAttributeNS(null, "cx", this._axis_x1);
+    	this._tip_circle.setAttributeNS(null, "cy", this.getMapY(obj._val));
+    	this._tip_circle.setAttributeNS(null, "r", 4);
+    	this._tip_circle.setAttributeNS(null, "fill", "red");
+    	this._svg.appendChild(this._tip_circle);
+		
 	};
 	
-
-	
+	// update info when mouse moves
 	this.updateCursor = function(evt) {
         // Get the mouse x and y coordinates
         var x = evt.clientX;
@@ -200,15 +207,17 @@ function SVGPlot(svg, data) {
         	this._tip_txt.setAttributeNS(null, "x", x);
         else
         	this._tip_txt.setAttributeNS(null, "x", this._x_tip_max);
-        this._tip_data.textContent  = this.getDataByX(x);
+        	
+        var obj = this.getDataByX(x);
+        this._tip_data.textContent  = obj.str();
+        this._tip_circle.setAttributeNS(null, "cx", x);
+    	this._tip_circle.setAttributeNS(null, "cy", this.getMapY(obj._val));
+        
 
 	};
 	
 	this.initAxis();
 	this.drawData();
 	this.initTip();
-	
-	
-	
-	
+
 }
