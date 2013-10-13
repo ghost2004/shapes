@@ -17,14 +17,29 @@
 		//create set of locations
 		var location_set=paper.set();
 		
+		// load  playfair data
+		var dict = {};
+		for (var p in playfair) {
+			var pf = playfair[p];
+			dict[pf.city] = pf;
+		}
+		
+		
 		//create locations
 		for (var location in latlong){
 			var loc=latlong[location];
 			//alert("name:" + loc.name+" lat:" +loc.lat + " long:" + loc.lng);
 			var xy=get_xy(loc.lat*1.0, loc.long*1.0);
 			//alert(xy.x + "--" + xy.y);
-			var loc_obj=paper.circle(xy.x, xy.y, 5).attr({fill: "red", stroke: 'white', 'stroke-width': 2, cursor: 'pointer'}).scale(scale, scale, 0, 0);
+			// random color
+			var color = '#' + Math.random().toString(16).substring(2, 8);
+			if(7 - color.length != 0){
+				color += Math.random().toString(16).substring(2, 9 - color.length);
+			}
+			var loc_obj=paper.circle(xy.x, xy.y, 5).attr({fill: color, stroke: 'white', 'stroke-width': 2, cursor: 'pointer'}).scale(scale, scale, 0, 0);
 			loc_obj.name=loc.city;
+			loc_obj.pop = dict[loc.city].population;
+			loc_obj.diameter = dict[loc.city].diameter;
 			loc_obj.x=xy.x;
 			loc_obj.y=xy.y;
 			location_set.push(loc_obj);			
@@ -32,25 +47,19 @@
 		
 		var name = document.getElementById('location_name');
 		location_set.hover(over, out); 	//Adds event handlers for hovering over the element
-		location_set.click(click);
 
 		// *********************************************Functions *********************************************
 		
 		function over(){
 			this.attr({'stroke-width': 3});
-			//image_array[this.id]=paper.image('img/'+this.img+'.jpg', this.x+8, this.y-160, 150, 150).scale(scale, scale, 0, 0);
-			name.innerHTML=this.name;
+			name.innerHTML=this.name + "---Population:"+ this.pop + " Diameter:" + this.diameter;
 		}
 		
 		function out(){
 			this.attr({'stroke-width': 2});
-			name.innerHTML='Hover over a city to see its name';
-			//image_array[this.id].remove();
+			name.innerHTML='Hover over a city to see its name, population and diameter';
 		}
 
-		function click(){
-			window.location.href = this.url;
-		}
 		
 		function get_xy(lat, lng){  //http://stackoverflow.com/questions/14329691/covert-latitude-longitude-point-to-a-pixels-x-y-on-mercator-projection
 			var mapWidth=2058;
@@ -68,79 +77,10 @@
 			var mercN = Math.log(Math.tan((Math.PI/4)+(latRad/2)));
 			var y = (mapHeight/2)-(mapWidth*mercN/(2*Math.PI));
 
-			return { x: x*factor+x_adj, y: y*factor+y_adj}
+			return { x: x*factor+x_adj, y: y*factor+y_adj};
 		}
 		
 	}
 			
 	
-	// *********************************************Location Data*********************************************
 
-	var locations={
-		0: { 
-			name: 'Paris',
-			lat: 48.866666670,
-			lng: 2.333333333,
-			color: 'violet',
-			url: 'http://www.flickr.com/photos/wlappe/2903363114/sizes/l/in/photostream/',
-			img: 'paris'
-		}}/*,
-		1: { 
-			name: 'Shanghai',
-			lat: 31.10,
-			lng: 121.366,
-			color: 'black',
-			url: 'http://www.flickr.com/photos/mulliganstu/8258009156/sizes/k/in/photostream/',
-			img: 'shanghai'
-		},
-		2: { 
-			name: 'New York',
-			lat: 40.7,
-			lng: -73.90,
-			color: 'red',
-			url: 'http://www.flickr.com/photos/29624656@N08/3735314426/sizes/l/in/photostream/',
-			img: 'newyork'
-		},
-		3: { 
-			name: 'Los Angeles',
-			lat: 34.0,
-			lng: -118.25,
-			color: 'purple',
-			img: 'losangeles',
-			url: 'http://www.flickr.com/photos/ahhdrjones/2233960320/sizes/l/in/photostream/'
-		},
-		4: { 
-			name: 'Cape Town',
-			lat: -35.916,
-			lng: 18.36,
-			color: 'hotpink',
-			img: 'capetown',
-			url: 'http://www.flickr.com/photos/eguidetravel/6398495943/sizes/o/in/photostream/'
-		},
-		5: { 
-			name: 'Santiago',
-			lat: -33.45,
-			lng: -70.66,
-			color: 'blue',
-			img: 'santiago',
-			url: 'http://www.flickr.com/photos/leonardodasilva/7842929988/sizes/o/in/photostream/'
-		},
-		6: { 
-			name: 'Cairo',
-			lat: 30.05,
-			lng: 31.25,
-			color: 'green',
-			img: 'cairo',
-			url: 'http://www.flickr.com/photos/azwegers/6201079985/sizes/o/in/photostream/'
-		},
-		7: { 
-			name: 'Singapore',
-			lat: 1.30,
-			lng: 103.83,
-			color: 'orange',
-			img: 'singapore',
-			url: 'http://www.flickr.com/photos/jjcbaron/5072266832/sizes/l/in/photostream/'
-		}
-	}
-	
-	*/

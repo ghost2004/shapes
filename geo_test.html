@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <title>Demo: Interactive World Javascript Map</title>
     <script src="./data/latlong.js"></script>
+    <script src="./data/playfair.js"></script>
     <script src="./solution/raphael-min.js"></script>
     <script src="./solution/worldmap.js"></script>
 
@@ -16,25 +17,9 @@
         color: #999;
     }
     h1 {
-        font-size: 1.3em;
+        font-size: 1em;
         margin: 0 0 10px;
         color: #000;
-    }
-    h2 {
-        font-size: 2.2em;
-        line-height: 1.1em;
-        margin: 0 0 10px;
-        color: #000;
-    }
-    a {
-        color: #69C;
-        text-decoration: none;
-    }
-    a:hover {
-        color: #F30;
-    }
-    p {
-        margin: 0 0 10px;
     }
     em {
         font: italic 100% "Times New Roman", Times, serif;
@@ -53,10 +38,9 @@
 
 <body onload="worldmap()"">
 <div id="pagewrap">
-        <h2>Demo: Interactive World Javascript Map</h2>
       
     
-        <h1 id="location_name">Hover over a city to see its name</h1>
+        <h1 id="location_name">Hover over a city to see its name, population and diameter</h1>
     <div id="map"></div>
 
     </div>
