@@ -20,11 +20,11 @@
 		//create locations
 		for (var location in latlong){
 			var loc=latlong[location];
-			alert("name:" + loc.name+" lat:" +loc.lat + " long:" + loc.lng);
-			var xy=get_xy(loc.lat*1, loc.lng*1);
-			alert(xy.x + "--" + xy.y);
-			var loc_obj=paper.circle(xy.x, xy.y, 10).attr({fill: "red", stroke: 'white', 'stroke-width': 2, cursor: 'pointer'}).scale(scale, scale, 0, 0);
-			loc_obj.name=loc.name;
+			//alert("name:" + loc.name+" lat:" +loc.lat + " long:" + loc.lng);
+			var xy=get_xy(loc.lat*1.0, loc.long*1.0);
+			//alert(xy.x + "--" + xy.y);
+			var loc_obj=paper.circle(xy.x, xy.y, 5).attr({fill: "red", stroke: 'white', 'stroke-width': 2, cursor: 'pointer'}).scale(scale, scale, 0, 0);
+			loc_obj.name=loc.city;
 			loc_obj.x=xy.x;
 			loc_obj.y=xy.y;
 			location_set.push(loc_obj);			
