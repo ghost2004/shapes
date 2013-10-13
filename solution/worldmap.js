@@ -21,7 +21,7 @@
 		for (var location in latlong){
 			var loc=latlong[location];
 			alert("name:" + loc.name+" lat:" +loc.lat + " long:" + loc.lng);
-			var xy=get_xy(loc.lat, loc.lng);
+			var xy=get_xy(loc.lat*1, loc.lng*1);
 			alert(xy.x + "--" + xy.y);
 			var loc_obj=paper.circle(xy.x, xy.y, 10).attr({fill: "red", stroke: 'white', 'stroke-width': 2, cursor: 'pointer'}).scale(scale, scale, 0, 0);
 			loc_obj.name=loc.name;
@@ -67,6 +67,7 @@
 			// get y value
 			var mercN = Math.log(Math.tan((Math.PI/4)+(latRad/2)));
 			var y = (mapHeight/2)-(mapWidth*mercN/(2*Math.PI));
+
 			return { x: x*factor+x_adj, y: y*factor+y_adj}
 		}
 		
