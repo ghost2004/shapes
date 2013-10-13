@@ -1,12 +1,13 @@
 	
 	function worldmap(){
-		//image_array=[];
 		var div = document.getElementById('map');
 		var width=div.offsetWidth;
 		var scale=width/887;
 		var height=width*.62; 
-		var paper = Raphael(div, width, height); //create the Raphael canvas in the map div
-		var background=paper.rect(0, 0, width, height); //create the background
+		//create the Raphael canvas in the map div
+		var paper = Raphael(div, width, height); 
+		 //create the background
+		var background=paper.rect(0, 0, width, height);
 		background.attr({fill: 'skyblue', 'stroke-width': 0}); 
 		
 		//create the map
@@ -61,7 +62,7 @@
 		}
 
 		
-		function get_xy(lat, lng){  //http://stackoverflow.com/questions/14329691/covert-latitude-longitude-point-to-a-pixels-x-y-on-mercator-projection
+		function get_xy(lat, lng){ 
 			var mapWidth=2058;
 			var mapHeight=1746;
 			var factor=.404;
