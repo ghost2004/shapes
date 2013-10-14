@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body>
+<script src="./data/runtime.js"></script>
 <script>
 /*
 function extend(Child, Parent) {
@@ -50,7 +51,7 @@ function Shape() {
     } 
     this.draw = function () {
     	//alert(this.x1()+"-- "+this.y1());
-    }
+    };
         
 
 }
@@ -60,16 +61,14 @@ function extend(subCls,superCls,param) {
 function Line() {
 	this.draw = function() {
 		document.write("<p>"+ this.x1() +"-" + this.y1()+ "</p>");
-	}
+	};
 
 }
 function Circle() {
 	this.centerX = this.x1;
     this.draw = function() {
         document.write("<p> center: "+ this.centerX() +"-" + this.y1()+ "</p>");
-    }
-    
-    
+    };
 
 }
 extend(Line,Shape,"");
@@ -91,6 +90,35 @@ var d = new Date("1990-05-01T07:00:00.000Z");
 document.write("Year: "+ d.getFullYear());
 
 
+var algorithm = {};
+var system = {};
+var dataType = {};
+var runtimeData = {};
+
+for (var i in runtime){
+	var rt = runtime[i];
+	algorithm[rt.algorithm] = true;
+	system[rt.system] = true;
+	dataType[rt.type] = true;
+	var idx = rt.algorithm + rt.system + rt.type;
+	runtimeData[idx] = rt.time;
+}
+document.write("<p>system</p>");
+for (var s in system) {
+	document.write("<p>"+s+"</p>");
+}	
+document.write("<p>type</p>");
+for (var s in dataType) {
+	document.write("<p>"+s+"</p>");
+}
+document.write("<p>algorithm</p>");
+for (var s in algorithm) {
+	document.write("<p>"+s+"</p>");
+}
+document.write("<p>runtime</p>");
+for (var s in runtimeData) {
+	document.write("<p>"+s+"--"+runtimeData[s]+"</p>");
+}
 </script>
 
 </body>

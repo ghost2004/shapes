@@ -18,7 +18,7 @@
 		//create set of locations
 		var location_set=paper.set();
 		
-		// load  playfair data
+		// load  PLAYFAIR data
 		var dict = {};
 		for (var p in playfair) {
 			var pf = playfair[p];
@@ -48,8 +48,6 @@
 		
 		var name = document.getElementById('location_name');
 		location_set.hover(over, out); 	//Adds event handlers for hovering over the element
-
-		// *********************************************Functions *********************************************
 		
 		function over(){
 			this.attr({'stroke-width': 3});
