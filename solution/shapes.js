@@ -11,6 +11,7 @@ function Shapes() {
 	this._color = "red";
 	this._height = 0;
 	this._width = 0;
+	this._shape = null;
 	
 	this.x = function() {
 		var numargs = arguments.length;
@@ -69,14 +70,14 @@ function Shapes() {
 // Object Rectangle, subclass of Shapes
 function Rectangle() {
 	this.draw = function(svg) {
-		var shape = document.createElementNS(NS, "rect");
-    	shape.setAttributeNS(null, "x", this._x - this._width/2);
-    	shape.setAttributeNS(null, "y", this._y - this._height/2);
-    	shape.setAttributeNS(null, "height", this._height);
-    	shape.setAttributeNS(null, "width", this._width);
-    	shape.setAttributeNS(null, "fill", this._color);
+		this._shape = document.createElementNS(NS, "rect");
+    	this._shape.setAttributeNS(null, "x", this._x - this._width/2);
+    	this._shape.setAttributeNS(null, "y", this._y - this._height/2);
+    	this._shape.setAttributeNS(null, "height", this._height);
+    	this._shape.setAttributeNS(null, "width", this._width);
+    	this._shape.setAttributeNS(null, "fill", this._color);
 
-		svg.appendChild(shape);
+		svg.appendChild(this._shape);
 		return this;
 	};
 }
@@ -87,14 +88,14 @@ function Square() {
 	this.cx = this.x;
 	this.cy = this.y;
 	this.draw = function(svg) {
-		var shape = document.createElementNS(NS, "rect");
-    	shape.setAttributeNS(null, "x", this._x - this._width/2);
-    	shape.setAttributeNS(null, "y", this._y - this._width/2);
-    	shape.setAttributeNS(null, "height", this._width);
-    	shape.setAttributeNS(null, "width", this._width);
-    	shape.setAttributeNS(null, "fill", this._color);
+		this._shape = document.createElementNS(NS, "rect");
+    	this._shape.setAttributeNS(null, "x", this._x - this._width/2);
+    	this._shape.setAttributeNS(null, "y", this._y - this._width/2);
+    	this._shape.setAttributeNS(null, "height", this._width);
+    	this._shape.setAttributeNS(null, "width", this._width);
+    	this._shape.setAttributeNS(null, "fill", this._color);
 
-		svg.appendChild(shape);
+		svg.appendChild(this._shape);
 		return this;
 	};
 }
@@ -134,16 +135,16 @@ function Line() {
 		}
 	};
 	this.draw = function(svg) {
-		var shape = document.createElementNS(NS, "line");
-    	shape.setAttributeNS(null, "x1", this._x);
-    	shape.setAttributeNS(null, "y1", this._y);
-    	shape.setAttributeNS(null, "x2", this._x2);
-    	shape.setAttributeNS(null, "y2", this._y2);
-    	shape.setAttributeNS(null, "stroke", this._color);
-    	shape.setAttributeNS(null, "stroke-width", this._width);
+		this._shape = document.createElementNS(NS, "line");
+    	this._shape.setAttributeNS(null, "x1", this._x);
+    	this._shape.setAttributeNS(null, "y1", this._y);
+    	this._shape.setAttributeNS(null, "x2", this._x2);
+    	this._shape.setAttributeNS(null, "y2", this._y2);
+    	this._shape.setAttributeNS(null, "stroke", this._color);
+    	this._shape.setAttributeNS(null, "stroke-width", this._width);
     	if (this._broken)
- 			shape.setAttributeNS(null, "style", "stroke-dasharray:3 2");   
-		svg.appendChild(shape);
+ 			this._shape.setAttributeNS(null, "style", "stroke-dasharray:3 2");   
+		svg.appendChild(this._shape);
 		return this;
 	};
 	
@@ -153,6 +154,7 @@ extendClass(Line, Shapes,"");
 // Object Text, subclass of Shapes
 function Text() {
 	this._text = "";
+	this._data = null;
 	this.text = function() {
 		var numargs = arguments.length;
 		if (numargs == 0)
@@ -163,13 +165,13 @@ function Text() {
 		}
 	};
 	this.draw = function(svg) {
-		var data = document.createTextNode(this._text);
-		var txt = document.createElementNS(NS, "text");
-		txt.setAttributeNS(null, "x", this._x);
-		txt.setAttributeNS(null, "y", this._y);
-		txt.setAttributeNS(null, "text-anchor", "start");
-		txt.appendChild(data);
-		svg.appendChild(txt);
+		this._data  = document.createTextNode(this._text);
+		this._shape = document.createElementNS(NS, "text");
+		this._shape.setAttributeNS(null, "x", this._x);
+		this._shape.setAttributeNS(null, "y", this._y);
+		this._shape.setAttributeNS(null, "text-anchor", "start");
+		this._shape.appendChild(this._data);
+		svg.appendChild(this._shape);
 		return this;		
 	};
 }
@@ -179,13 +181,13 @@ extendClass(Text, Shapes,"");
 // Object Circle, subclass of Shapes
 function Circle() {
 	this.draw = function(svg) {
-		var shape = document.createElementNS(NS, "circle");
-    	shape.setAttributeNS(null, "cx", this._x);
-    	shape.setAttributeNS(null, "cy", this._y);
-    	shape.setAttributeNS(null, "r", this._width/2);
-    	shape.setAttributeNS(null, "fill", this._color);
+		this._shape = document.createElementNS(NS, "circle");
+    	this._shape.setAttributeNS(null, "cx", this._x);
+    	this._shape.setAttributeNS(null, "cy", this._y);
+    	this._shape.setAttributeNS(null, "r", this._width/2);
+    	this._shape.setAttributeNS(null, "fill", this._color);
 
-		svg.appendChild(shape);
+		svg.appendChild(this._shape);
 		return this;
 	};
 }

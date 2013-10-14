@@ -59,6 +59,8 @@ function SVGPlot(svg, data) {
 	this.getMapY = function(y) {
 		return this._axis_y1-Math.round((y - this._y_base)*this._y_pels);
 	};
+	
+	// Draw X & Y axis
 	this.initAxis = function() {
 		this._axis_x1 = this._left_blank;
 		this._axis_y1 = this._height - this._bottom_blank;
@@ -87,8 +89,6 @@ function SVGPlot(svg, data) {
 		this._y_max = Math.ceil(i/this._y_per_blk)*this._y_per_blk;
 		
 		this._y_pels = (this._axis_y1 - this._axis_y2)/this._y_max;
-		
-		//alert("blk:"+this._y_per_blk+" max:"+this._y_max+" pels:"+this._y_pels );
 
 		// Draw X axis		
 		var x_axis = new Line().x1(this._axis_x1).y1(this._axis_y1)
@@ -135,6 +135,7 @@ function SVGPlot(svg, data) {
 		
 	};
 	
+	// Draw time series line chart
 	this.drawData = function() {
 		var prevX = this.getMapX(this._chartData._chartD[0]._date);
 		var prevY = this.getMapY(this._chartData._chartD[0]._val);
@@ -152,7 +153,7 @@ function SVGPlot(svg, data) {
 		}
 		
 	};
-	
+	// get the data by time
 	this.getDataByX = function(x) {
 		var idx = Math.floor((x - this._axis_x1)/this._x_pels);
 		if (idx < 0)
@@ -164,30 +165,28 @@ function SVGPlot(svg, data) {
 	};
 	// Initialize the tip information
 	this.initTip = function() {
-		this._tip_line = document.createElementNS(NS, "line");
-		this._tip_line.setAttributeNS(null, "x1", this._axis_x1);
-		this._tip_line.setAttributeNS(null, "y1", this._axis_y1);
-		this._tip_line.setAttributeNS(null, "x2", this._axis_x1);
-		this._tip_line.setAttributeNS(null, "y2", this._axis_y2);
-		this._tip_line.setAttributeNS(null, "style", "fill:red;stroke:red;stroke-width:1;stroke-dasharray:3 2");
-		this._svg.appendChild(this._tip_line);
-		
+		// the tip line
+		this._tip_line  = new Line().x1(this._axis_x1).y1(this._axis_y1)
+			.x2(this._axis_x1).y2(this._axis_y2)
+            .stroke('red').strokeWidth(1).broken(true)
+            .draw(svg)._shape;
+	
+		// get the first element 
 		var obj = this._chartData._chartD[0];
-		this._tip_data = document.createTextNode(obj.str());
-		this._tip_txt = document.createElementNS(NS, "text");
-		this._tip_txt.setAttributeNS(null, "x", this._axis_x1);
-		this._tip_txt.setAttributeNS(null, "y", this._axis_y2-10);
-		this._tip_txt.setAttributeNS(null, "text-anchor", "start");
-		this._tip_txt.appendChild(this._tip_data);
-		this._svg.appendChild(this._tip_txt);
 		
-		this._tip_circle = document.createElementNS(NS, "circle");
-    	this._tip_circle.setAttributeNS(null, "cx", this._axis_x1);
-    	this._tip_circle.setAttributeNS(null, "cy", this.getMapY(obj._val));
-    	this._tip_circle.setAttributeNS(null, "r", 4);
-    	this._tip_circle.setAttributeNS(null, "fill", "red");
-    	this._svg.appendChild(this._tip_circle);
+		// the tip text
+		var tip = new Text().x(this._axis_x1).y(this._axis_y2-10)
+			.text(obj.str()).draw(svg);
+	
+		this._tip_txt = tip._shape;
+		this._tip_data = tip._data;
 		
+		// the tip dot
+		this._tip_circle = new Circle()
+            .center(this._axis_x1, this.getMapY(obj._val)).width(6)
+            .fill('red')
+            .draw(svg)._shape;
+
 	};
 	
 	// update info when mouse moves
@@ -196,20 +195,25 @@ function SVGPlot(svg, data) {
         var x = evt.clientX;
         var y = evt.clientY;
         
+        // adjust x coordinates
         if (x < this._axis_x1)
         	x = this._axis_x1;
         else if (x > this._axis_x2)
         	x = this._axis_x2;
 
+		// move the tip line 
         this._tip_line.setAttributeNS(null, "x1", x);
         this._tip_line.setAttributeNS(null, "x2", x);
         if (x < this._x_tip_max )
         	this._tip_txt.setAttributeNS(null, "x", x);
         else
         	this._tip_txt.setAttributeNS(null, "x", this._x_tip_max);
-        	
+        
+        // update the tip text
         var obj = this.getDataByX(x);
         this._tip_data.textContent  = obj.str();
+        
+        // set the tip dot
         this._tip_circle.setAttributeNS(null, "cx", x);
     	this._tip_circle.setAttributeNS(null, "cy", this.getMapY(obj._val));
         
