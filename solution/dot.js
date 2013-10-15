@@ -8,7 +8,7 @@ $(function () {
 	var system = {};
 	var dataType = {};
 	var runtimeData = {};
-
+	
 	for (var i in runtime){
 		var rt = runtime[i];
 		algorithm[rt.algorithm] = true;
@@ -27,6 +27,7 @@ $(function () {
 	}
 	
 	// Data -- runtime for each algorithm
+	var algName = new Array(algorithm.length);
 	var alg_idx = 0;
 	for (var a in algorithm) {
 		data[alg_idx] = new Array();
@@ -36,6 +37,7 @@ $(function () {
 				data[alg_idx].push(runtimeData[idx]);
 			}
 		}
+		algName[alg_idx] = a;
 		alg_idx++;
 	}
     // Draw
