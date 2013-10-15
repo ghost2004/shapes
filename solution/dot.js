@@ -40,7 +40,7 @@ $(function () {
 		algName[alg_idx] = a;
 		alg_idx++;
 	}
-    // Draw
+    // Draw Text on Axis
     var width = 800,
         height = 300,
         leftgutter = 30,
@@ -58,6 +58,8 @@ $(function () {
     for (var i = 0, ii = axisy.length; i < ii; i++) {
         r.text(30, Y * (i + .5), axisy[i]).attr(txt);
     }
+    
+    // Draw buttons
     var now = 0;
     curAlg = r.text(350, 10, algName[now]).attr({fill: "#fff", stroke: "none", "font": '100 18px "Helvetica Neue", Helvetica, "Arial Unicode MS", Arial, sans-serif'}),
     rightc = r.circle(404, 10, 10).attr({fill: "#fff", stroke: "none"}),
@@ -65,9 +67,12 @@ $(function () {
     leftc = r.circle(296, 10, 10).attr({fill: "#fff", stroke: "none"}),
     left = r.path("M300,5l-10,5 10,5z").attr({fill: "#000"});
     
+    // Array for all dots
     var dts = new Array();
+    // Array for all the labels
     var lbls = new Array();
-
+    
+	// Initialize the first algorithm view
     var o = 0;
     for (var i = 0, ii = axisy.length; i < ii; i++) {
         for (var j = 0, jj = axisx.length; j < jj; j++) {
@@ -85,33 +90,33 @@ $(function () {
             o++;
         }
     }
-    
+    // when change the algorithm
     var changeAlgorithm = function () {
     	if (now < 0)
     		now = algName.length - 1;
     	else if (now > algName.length - 1)
     		now = 0;
+    	curAlg.attr({text: algName[now]}); 
         var o = 0;
         for (var i = 0, ii = axisy.length; i < ii; i++) {
             for (var j = 0, jj = axisx.length; j < jj; j++) {
-                var R = data[now][o] && Math.min(Math.round(Math.sqrt(data[now][o] / Math.PI) * 4), max)*12.5;
+                var R = data[now][o] && Math.min(Math.round(Math.sqrt(data[now][o] / Math.PI) * 4), max)*12;
                 if (R) {
                     (function (dx, dy, R) {
                     	var color = "hsb(" + [(1 - R / max) * .5, 1, .75] + ")";
-                    	dts[o].animate({cx: dx + 60 + R, cy: dy + 10, r: R, fill:color},100);
+                    	dts[o].animate({cx: dx + 60 + R, cy: dy + 10, r: R, fill:color}, 400);
                         lbls[o].attr({x:dx + 60 + R, y: dy + 10, text: data[now][o]});
                     })(leftgutter + X * (j + .5) - 60 - R, Y * (i + .5) - 10, R);
                 }
                 o++;
             }
         }
-    	curAlg.attr({text: algName[now]}); 
+    	
     };
     
     var next = function () {
     	now ++;
     	changeAlgorithm();
-    	
     };
     
     var prev = function () {
