@@ -103,6 +103,7 @@ for (var i in runtime){
 	var idx = rt.algorithm + rt.system + rt.type;
 	runtimeData[idx] = rt.time;
 }
+/*
 document.write("<p>system</p>");
 for (var s in system) {
 	document.write("<p>"+s+"</p>");
@@ -119,6 +120,21 @@ document.write("<p>runtime</p>");
 for (var s in runtimeData) {
 	document.write("<p>"+s+"--"+runtimeData[s]+"</p>");
 }
+
+*/
+var testA = new Array();
+document.write("<p>");
+for (var i = 0; i < 4; i+=2) {
+	testA[i] = i;
+	document.write(testA[i] + "  ");
+}
+document.write("</p>");
+document.write("<p>");
+for (var i = 0; i < 4; i++) {
+    testA[i] = i+10;
+    document.write(testA[i] + "  ");
+}
+document.write("</p>");
 </script>
 
 </body>
